@@ -3,6 +3,8 @@ layout: portfolio_entry
 title: QRasterizer
 image: /img/QRasterizer/Thumbnail.png
 use-math: true
+github-link: https://github.com/HarryNguyen1998/QRasterizer
+
 ---
 
 This is a software renderer/rasterizer that emulates how a graphics API work. To be more precise, it
@@ -31,13 +33,70 @@ td, th {
 | | Rasterizer |
 | | Clipping |
 
-Gallery:
+Some pictures during the development process:
+
+### Postmortem
+
+#### C++ tidbits:
+`<cmath>` doesn't support `constexpr`, e.g., `std::abs`, so I could only partially apply `constexpr`
+in my math library
+
+`initializer_list` trivia: given `foo f = {2, 3, 4};`, what would happen if I don't provide any copy constructor? 
+- It will convert the list to a temp `Foo` using `initializer_list` constructor, then it passes that
+  as an argument to the implicitly generated copy assignment member function. Guess what happens
+  next? If your class has pointers, boom!
+- The lesson is when using `initializer_list`, check if you have any pointer around and decide
+  whether to change to smart pointers, or use RO3
+
+Pass by value + `std::move` save typings, since it will optimally move or copy
+
+Smart pointers can be used on C functions in library like SDL2 (courtesy to [1][1] & [2][2]):
+``` c++
+struct SDL_Deleter
+{
+   void operator()(SDL_Window *window)
+   {
+         SDL_DestroyWindow(window);
+   }
+};
+
+// In Foo.h
+std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;
+
+// In Foo.cpp
+Foo() : m_window(nullptr, SDL_DestroyWindow)
+{
+    m_window.reset(SDL_CreateWindow(...));
+}
+
+```
+
+When working with templates, we want to **deactivate** some functions if template type is of some
+type. This can be leveraged with `std::enable_if_t` (this [link][3] explains more in detail):
+``` c++
+// Code excerpt: The Cross product is only generated when working with 3D vectors. If you
+// accidentally use it on 2D vectors, the compiler won't generate the function andd error is caught
+// at compile time
+template<typename T, size_t Size, typename = std::enable_if_t<(Size == 3)>>
+constexpr Vector<T, Size> Cross(const Vector<T, Size>& v1, const Vector<T, Size>& v2)
+{
+      return Vector<T, Size>{
+          v1[1] * v2[2] - v1[2] * v2[1],
+          v1[2] * v2[0] - v1[0] * v2[2],
+          v1[0] * v2[1] - v1[1] * v2[0]};
+}
+
+```
+
+#### Computer Graphics tidbits
+<embed src="/img/QRasterizer/point-flow.svg" type="image/svg+xml" />
 
 
 
-### Work Summary
-For those who are a bit interested in the specifics:
+### Resources
+- Use SDL2 with smart pointers: [1][1] and [2][2]
+- The holy bible: [Scratchapixel](https://www.scratchapixel.com/index.php?redirect)
 
-$ \dfrac 1Z = \dfrac{1}{Z_0}(1-q) + \dfrac{1}{Z_1}q $
-
-
+[1]: https://stackoverflow.com/questions/48672399/is-it-possible-to-use-sdl2-with-smart-pointers
+[2]: https://stackoverflow.com/questions/24251747/smart-pointers-with-sdl
+[3]: https://www.fluentcpp.com/2018/05/15/make-sfinae-pretty-1-what-value-sfinae-brings-to-code/

@@ -9,10 +9,11 @@ body {
   font:16px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
   color:#333;
   font-weight:300;
+  box-sizing: border-box;
 }
 
 .wrapper {
-  width:950px;
+  width:90%;
   margin:0 auto;
   *zoom: 1;
 }
@@ -97,7 +98,7 @@ strong {
 }
 
 section {
-  width:600px;
+  width:90%;
   float:right;
   padding-bottom:50px;
   min-height: 400px;
@@ -193,43 +194,45 @@ th {
 /* Header / Sidebar Top */
 
 header {
-  width:275px;
+  width: 20%;
+  height: auto;
   float:left;
   position:fixed;
-  border-right: 1px solid #eee;
-  padding: 50px 30px 50px 0;
-  min-height: 100%;
-  margin: -50px 0;
+  display: block;
+  box-sizing: border-box;
 }
 
 header h1 {
   margin-bottom: 12px;
 }
 
-
 /* Navbar */
 
 nav ul {
   list-style:none;
-  height:24px;
   padding:0;
   background: #fff;
   border-radius:5px;
   border:1px solid #e5e5e5;
   width:100%;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
+nav li:first-child {
+  padding-left: 0%;
+}
 nav li {
-  /* float:left; */
+  display: inline-block;
   height:24px;
-  display: "inline-block";
-  width:50%;
+  /* @note Change this when navbar items change */
   border-right:1px solid #e5e5e5;
+  box-sizing: border-box;
 }
 
 nav li:last-child {
   border-right:none;
-  /* width:68px; */
 }
 
 nav li a {
@@ -393,7 +396,7 @@ a.post-banner:hover { background-size: auto 104%; }
 footer {
   font-size: 14px;
   text-align: center;
-  width:275px;
+  width:20%;
   float:left;
   position:fixed;
   bottom:50px;
@@ -433,20 +436,25 @@ img.pull-left {
 @media print, screen and (max-width: 1050px) {
   
   div.wrapper {
-    width:600px;
+    width:100%;
   }
   
-  header, section, footer {
+  .content-default, header, section, footer {
     float:none;
     position:static;
     width:auto;
   }
   
+  .content-default {
+    width: 100%;
+    margin: auto;
+  }
+
   header {
+    width: 100%;
     background: none;
-    position: relative;
-    padding:0 320px 10px 0;
-    margin: 0;
+    padding: 0;
+    margin: auto;
     min-height: 0;
     border: none;
   }
@@ -487,6 +495,7 @@ img.pull-left {
   }
   
   header {
+    width: 100%;
     padding: 0 0 15px;
   }
   
@@ -706,13 +715,15 @@ form {
   }
 }
 
-/* .nav-bar {
-  width:100%;
+/* Testing ground */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
-.nav-bar-item {
-  width: 50%;
-  text-align: center;
-  margin:auto;
+.content-default {
+  width: 70%;
+  float: right;
+  box-sizing: border-box;
 }
-*/
