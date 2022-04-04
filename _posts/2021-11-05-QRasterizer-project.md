@@ -2,6 +2,7 @@
 layout: portfolio_entry
 title: QRasterizer
 image: /img/QRasterizer/Thumbnail.png
+permalink: blog/qrasterizer 
 use-math: true
 github-link: https://github.com/HarryNguyen1998/QRasterizer
 
@@ -34,6 +35,26 @@ td, th {
 | | Clipping |
 
 Some pictures during the development process:
+<table>
+<tr>
+  <td> <img src="/img/QRasterizer/wireframe.png" alt="Wireframe" style="width: 125px;"/>
+  <figcaption>Wireframe rendering</figcaption>
+  </td>
+  <td> <img src="/img/QRasterizer/z-buffer.png" alt="z-buffer" style="width: 125px;"/>
+  <figcaption>z-buffer</figcaption>
+  </td>
+</tr>
+<tr>
+<td> <img src="/img/QRasterizer/flat-shading.png" alt="flat-shading" style="width: 125px;"/>
+  <figcaption>flat shading</figcaption></td>
+<td> <img src="/img/QRasterizer/texture-and-flat-shading.png" alt="texture with flat shading" style="width: 125px;;"/> 
+  <figcaption>texture mapping</figcaption>
+  </td>
+<td> <img src="/img/QRasterizer/Thumbnail.png" alt="Demo" style="width: 125px;"/>
+  <figcaption>Full demo</figcaption>
+</td>
+</tr></table>
+
 
 ### Postmortem
 
